@@ -45,15 +45,15 @@ function createTask(task) {
   function saveToLocalStorage() {
     const tasks = [];
     tasks.push(task);
-    localStorage.setItem("tasksprime", JSON.stringify(tasks));
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
     saveToLocalStorage();
 
 }
-
-
     
 
 function read() {}
+
+
 
 btnPrimary.addEventListener("click", addTask)

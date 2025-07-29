@@ -1,8 +1,6 @@
 const btnPrimary = document.querySelector(".btn-primary");
 const taskInput = document.querySelector(".task-input");
 
-
-
 function addTask() {
   const task = taskInput.value.trim();
   if (task === "") {
@@ -26,12 +24,11 @@ function createTask(task) {
 
   const deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete";
-  deleteButton.className = "btn btn-danger btn-sm btn-lg";
+  deleteButton.className = "btn btn-danger ";
   taskItem.appendChild(deleteButton);
   deleteButton.addEventListener("click", () => {
     taskItem.remove();
     deleteButton.remove();
-    removeFromLocalStorage(task);
   });
 
   const editButton = document.createElement("button");
@@ -39,21 +36,17 @@ function createTask(task) {
   editButton.className = "btn btn-warning btn-sm btn-lg";
   taskItem.appendChild(editButton);
   editButton.addEventListener("click", (taskItem) => {
-    taskItem
+    taskItem;
   });
-  
+
   function saveToLocalStorage() {
-    const tasks = [];
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.push(task);
     localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+  saveToLocalStorage();
 }
-    saveToLocalStorage();
-
-}
-    
 
 function read() {}
 
-
-
-btnPrimary.addEventListener("click", addTask)
+btnPrimary.addEventListener("click", addTask);

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="tp DOM excersice three " />
     <meta name="author" content="Pablo German, Jimenez" />
+    <link rel="shortcut icon" href="./img/note.bmp"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
@@ -24,16 +25,15 @@
     <main class="container my-4">
         <h2 class="text-center mb-4">Manage task</h2>
         <div class="input-group mb-3 d-flex justify-content-center">
-            <input type="text" class="w-50 text-center task-input" placeholder="Enter a task">
+            <input type="text" maxlength="60" class="w-50 text-center task-input" placeholder="Enter a task(max 60 char)">
         </div>
-        <ul class="list-group    task-list">
+        <ul class="list-group  container  task-list" maxlength="20">
             <li class="list-group-item d-flex justify-content-center mx-4 border border-0">
                 <button class="btn btn-primary btn-sm my-3 mx-4">Add a task</button>
                 
             </li>
         </ul>
         </div>
-
     </main>
     <footer class="text-center py-3 bg-dark-subtle">
         <p>&copy; All rights reserved</p>

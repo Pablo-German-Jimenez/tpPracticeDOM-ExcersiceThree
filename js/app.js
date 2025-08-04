@@ -4,12 +4,15 @@ const taskInput = document.querySelector(".task-input");
 btnPrimary.addEventListener("click", addTask);
 
 function addTask() {
-  const task = taskInput.value.trim();
+  
+  let task = taskInput.value.trim() ;
+  
   if (task === "") {
     alert("Task cannot be empty");
     return;
   }
   createTask(task);
+  localStorage.setItem("tasks",JSON.stringify(task));
   taskInput.value = "";
 
   function createTask(taskText) {
@@ -17,25 +20,25 @@ function addTask() {
  
     const now = new Date();
 
-    // Crear elemento de tarea
+    //  create element of task
     const taskItem = document.createElement("li");
     taskItem.className = "list-group-item d-flex justify-content-between align-items-center gap-2 border border-danger";
     
-    // Contenedor principal del texto y fechas
+    //container date
     const textContainer = document.createElement("div");
     textContainer.className = "d-flex flex-column ";
     
-    // Contenedor de texto
+     //container text
     const taskContent = document.createElement("span");
     taskContent.className = "container border border-primary w-100 rounded-3";
     taskContent.textContent = taskText;
     
-    // Fecha de creación
+    //date creation
     const creationDate = document.createElement("small");
     creationDate.className = "text-muted";
     creationDate.textContent = `Created: ${formatDate(now)}`;
     
-    // Fecha de última actualización
+    //date last update
     const updateDate = document.createElement("small");
     updateDate.className = "text-muted";
     updateDate.textContent = `Last updated: ${formatDate(now)}`;
@@ -45,7 +48,7 @@ function addTask() {
     textContainer.appendChild(updateDate);
     taskItem.appendChild(textContainer);
 
-    // Crear selector de estado
+    //create selector state
     const statusSelect = document.createElement("select");
     statusSelect.className = "form-select  w-auto";
     ["Creada", "En Proceso", "Terminada"].forEach(state => {
@@ -56,7 +59,7 @@ function addTask() {
     });
     taskItem.appendChild(statusSelect);
     
-    // Cambiar color según estado
+    // change status color
     statusSelect.addEventListener("change", () => {
       taskItem.classList.remove("bg-light", "bg-warning", "bg-success");
       if (statusSelect.value === "Creada") {
@@ -67,11 +70,11 @@ function addTask() {
         taskItem.classList.add("bg-success");
       }
       
-      // Actualizar fecha de modificación cuando cambia el estado
+      // update date when state modified
       updateDate.textContent = `Last updated: ${formatDate(new Date())}`;
     });
 
-    // Botón eliminar
+    // delete boton
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.className = "btn btn-danger btn-sm";
@@ -80,7 +83,7 @@ function addTask() {
       taskItem.remove();
     });
 
-    // Botón editar
+    // boton edit
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";
     editButton.className = "btn btn-warning btn-sm";
@@ -95,7 +98,7 @@ function addTask() {
       saveEditButton.textContent = "Save";
       saveEditButton.className = "btn btn-outline-success btn-sm";
 
-      // Limpiar y agregar campos
+      // clear and fill fields
       taskItem.innerHTML = "";
       
       const newTextContainer = document.createElement("div");
@@ -136,7 +139,7 @@ function addTask() {
   }
 }
 
-// Función para formatear la fecha
+// function format date
 function formatDate(date) {
   return date.toLocaleString('es-ES', {
     day: '2-digit',

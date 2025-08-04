@@ -2,12 +2,14 @@ Deploy project! [https://personaltaskone.netlify.app/](https://personaltaskone.n
 
 🗂️ Todo List!
 A simple web application that lets you create, read, update, and delete (CRUD) tasks. Built with HTML, CSS, JavaScript, and Bootstrap 5.
-🚀 Features
+
+🚀 Features:
 - 📋 Responsive contact list table
 - ✏️ Edit contact information
 - ❌ Delete contacts
 - 🧠 Uses localStorage for data persistence (optional)
 - 🎨 Modern interface with Bootstrap and icons
+
 📦 Technologies Used
 - HTML5
 - CSS3 + Bootstrap 5

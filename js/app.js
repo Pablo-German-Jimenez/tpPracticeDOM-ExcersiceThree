@@ -1,12 +1,19 @@
 const btnPrimary = document.querySelector(".btn-primary");
-const taskInput = document.querySelector(".task-input");
+const taskInput = document.querySelector("#task-input");
+const formTask = document.querySelector("#formTask");
+const tasks = JSON.parse(localStorage.getItem("tasks"))||[]
 
-btnPrimary.addEventListener("click", addTask);
+formTask.addEventListener("submit", (e)=>{
+  e.preventDefault()
+  addTask(tasks)
+});
 
-function addTask() {
+function addTask(tasks) {
   
-  let task = taskInput.value.trim() ;
   
+  let task = taskInput.value.trim();
+  console.log(tasks)
+  console.log(task)
   if (task === "") {
     alert("Task cannot be empty");
     return;

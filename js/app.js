@@ -1,103 +1,94 @@
+const btnPrimary = document.querySelector(".btn-primary");
+const taskInput = document.querySelector("#task-input");
+const formTask = document.querySelector("#formTask");
+const tasks = JSON.parse(localStorage.getItem("tasks"))||[]
 
-const form = document.querySelector("form");
-const taskInput = document.querySelector("#taskInput");
-form.addEventListener("submit", addTask);
+formTask.addEventListener("submit", (e)=>{
+  e.preventDefault()
+  addTask(tasks)
+});
 
-function addTask(e) {
-  e.preventDefault();
-
+function addTask(tasks) {
+  
+  
   let task = taskInput.value.trim();
-  console.log(task);
+  console.log(tasks)
+  console.log(task)
   if (task === "") {
     alert("Task cannot be empty");
-    return
+    return;
   }
-
-const taskObj={
-  id : crypto.randomUUID(),
-  text: task,
-  created: new Date(),
-  updated: new Date(),
-}
-
-
-  saveTask(taskObj);
- createTask(task);
-  localStorage.setItem("tasks", JSON.stringify(task));
+  createTask(task);
+  localStorage.setItem("tasks",JSON.stringify(task));
   taskInput.value = "";
 
-}
+  function createTask(taskText) {
+    const taskList = document.querySelector(".task-list");
+ 
+    const now = new Date();
 
-function saveTask(){
-  const tasks = JSON.parse("tasks")
-}
+    //  create element of task
+    const taskItem = document.createElement("li");
+    taskItem.className = "list-group-item d-flex justify-content-between align-items-center gap-2 border border-danger";
+    
+    //container date
+    const textContainer = document.createElement("div");
+    textContainer.className = "d-flex flex-column ";
+    
+     //container text
+    const taskContent = document.createElement("span");
+    taskContent.className = "container border border-primary w-100 rounded-3";
+    taskContent.textContent = taskText;
+    
+    //date creation
+    const creationDate = document.createElement("small");
+    creationDate.className = "text-muted";
+    creationDate.textContent = `Created: ${formatDate(now)}`;
+    
+    //date last update
+    const updateDate = document.createElement("small");
+    updateDate.className = "text-muted";
+    updateDate.textContent = `Last updated: ${formatDate(now)}`;
+    
+    textContainer.appendChild(taskContent);
+    textContainer.appendChild(creationDate);
+    textContainer.appendChild(updateDate);
+    taskItem.appendChild(textContainer);
 
-function createTask() {
-  const taskList = document.querySelector(".task-list");
+    //create selector state
+    const statusSelect = document.createElement("select");
+    statusSelect.className = "form-select  w-auto";
+    ["Creada", "En Proceso", "Terminada"].forEach(state => {
+      const option = document.createElement("option");
+      option.value = state;
+      option.textContent = state;
+      statusSelect.appendChild(option);
+    });
+    taskItem.appendChild(statusSelect);
+    
+    // change status color
+    statusSelect.addEventListener("change", () => {
+      taskItem.classList.remove("bg-light", "bg-warning", "bg-success");
+      if (statusSelect.value === "Creada") {
+        taskItem.classList.add("bg-primary");
+      } else if (statusSelect.value === "En Proceso") {
+        taskItem.classList.add("bg-warning");
+      } else if (statusSelect.value === "Terminada") {
+        taskItem.classList.add("bg-success");
+      }
+      
+      // update date when state modified
+      updateDate.textContent = `Last updated: ${formatDate(new Date())}`;
+    });
 
-  const now = new Date();
-
-  //  create element of task
-  const taskItem = document.createElement("li");
-  taskItem.className =
-    "list-group-item d-flex justify-content-between align-items-center gap-2 border border-danger";
-
-  //container date
-  const textContainer = document.createElement("div");
-  textContainer.className = "d-flex flex-column ";
-
-  //container text
-  const taskContent = document.createElement("span");
-  taskContent.className = "container border border-primary w-100 rounded-3";
-  taskContent.textContent = taskText;
-
-  //date creation
-  const creationDate = document.createElement("small");
-  creationDate.className = "text-muted";
-  creationDate.textContent = `Created: ${formatDate(now)}`;
-
-  //date last update
-  const updateDate = document.createElement("small");
-  updateDate.className = "text-muted";
-  updateDate.textContent = `Last updated: ${formatDate(now)}`;
-
-  textContainer.appendChild(taskContent);
-  textContainer.appendChild(creationDate);
-  textContainer.appendChild(updateDate);
-  taskItem.appendChild(textContainer);
-
-  //create selector state
-  const statusSelect = document.createElement("select");
-  statusSelect.className = "form-select  w-auto";
-  ["Creada", "En Proceso", "Terminada"].forEach((state) => {
-    const option = document.createElement("option");
-    option.value = state;
-    option.textContent = state;
-    statusSelect.appendChild(option);
-  });
-  taskItem.appendChild(statusSelect);
-
-  // change status color
-  statusSelect.addEventListener("change", () => {
-    taskItem.classList.remove("bg-light", "bg-warning", "bg-success");
-    if (statusSelect.value === "Creada") {
-      taskItem.classList.add("bg-primary");
-    } else if (statusSelect.value === "En Proceso") {
-      taskItem.classList.add("bg-warning");
-    } else if (statusSelect.value === "Terminada") {
-      taskItem.classList.add("bg-success");
-    }
-  });
-  // update date when state modified
-  updateDate.textContent = `Last updated: ${formatDate(new Date())}`;
-
-  // delete boton
-  const deleteButton = document.createElement("button");
-  deleteButton.textContent = "Delete";
-  deleteButton.className = "btn btn-danger btn-sm";
-  taskItem.appendChild(deleteButton);
-  deleteButton.addEventListener("click", () => {
-    taskItem.remove();
+    // delete boton
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.className = "btn btn-danger btn-sm";
+    taskItem.appendChild(deleteButton);
+    deleteButton.addEventListener("click", () => {
+      taskItem.remove();
+    });
 
     // boton edit
     const editButton = document.createElement("button");
@@ -116,12 +107,12 @@ function createTask() {
 
       // clear and fill fields
       taskItem.innerHTML = "";
-
+      
       const newTextContainer = document.createElement("div");
       newTextContainer.className = "d-flex flex-column";
       newTextContainer.appendChild(editInput);
       newTextContainer.appendChild(creationDate);
-
+      
       taskItem.appendChild(newTextContainer);
       taskItem.appendChild(statusSelect);
       taskItem.appendChild(saveEditButton);
@@ -137,36 +128,32 @@ function createTask() {
 
         // Restaurar vista normal
         taskItem.innerHTML = "";
-
+        
         const restoredTextContainer = document.createElement("div");
         restoredTextContainer.className = "d-flex flex-column";
         restoredTextContainer.appendChild(taskContent);
         restoredTextContainer.appendChild(creationDate);
         restoredTextContainer.appendChild(updateDate);
-
+        
         taskItem.appendChild(restoredTextContainer);
         taskItem.appendChild(statusSelect);
         taskItem.appendChild(deleteButton);
         taskItem.appendChild(editButton);
       });
     });
-  });
-  taskList.appendChild(taskItem);
+
+    taskList.appendChild(taskItem);
+  }
 }
 
+// function format date
 function formatDate(date) {
-  // Configuración del formato en español con componentes en dos dígitos
-  const formatoOpciones = {
-    day: "2-digit", // Día con dos cifras, ej: '05'
-    month: "2-digit", // Mes con dos cifras, ej: '08'
-    year: "numeric", // Año completo, ej: '2025'
-    hour: "2-digit", // Hora con dos cifras, formato 24h
-    minute: "2-digit", // Minutos con dos cifras
-    second: "2-digit", // Segundos con dos cifras
-  };
-
-  // Aplica el formato a la fecha usando el idioma español de España
-  const fechaFormateada = date.toLocaleString("es-ES", formatoOpciones);
-
-  return fechaFormateada;
+  return date.toLocaleString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
 }
